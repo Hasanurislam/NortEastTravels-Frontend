@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Calendar } from "lucide-react";
-import axios from "axios";
+
+import axiosClient from "../Api/axiosClient";
 import { AuthContext } from "../context/AuthContext";
 
 export default function BookingForm({
@@ -74,8 +75,8 @@ export default function BookingForm({
       const fee = Math.round(base * 0.1);
       const totalPrice = base + fee;
 
-      await axios.post(
-        "http://localhost:5000/api/bookings",
+      await axiosClient.post(
+        "/api/bookings",
         {
           carId: car._id,
           travelers: days,
@@ -89,7 +90,7 @@ export default function BookingForm({
           headers: { Authorization: `Bearer ${user.token}` },
         }
       );
-      
+
       alert("Booking successful!");
       onClose();
     } catch (err) {
@@ -167,9 +168,8 @@ export default function BookingForm({
         <button
           onClick={handleSubmit}
           disabled={!canSubmit() || loading}
-          className={`w-full py-4 rounded text-white transition ${
-            loading ? "bg-indigo-400 cursor-not-allowed" : "bg-indigo-600 hover:bg-indigo-700"
-          }`}
+          className={`w-full py-4 rounded text-white transition ${loading ? "bg-indigo-400 cursor-not-allowed" : "bg-indigo-600 hover:bg-indigo-700"
+            }`}
         >
           {loading ? "Submitting..." : "Confirm"}
         </button>
