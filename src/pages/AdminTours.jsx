@@ -1,14 +1,14 @@
 import { useState, useEffect, useContext } from "react";
 import axiosClient from "../Api/axiosClient";
 import { AuthContext } from "../context/AuthContext";
-import { 
-  Plus, 
-  X, 
-  Edit2, 
-  Trash2, 
-  Upload, 
-  DollarSign, 
-  Calendar, 
+import {
+  Plus,
+  X,
+  Edit2,
+  Trash2,
+  Upload,
+  DollarSign,
+  Calendar,
   MapPin,
   Image as ImageIcon,
   Save,
@@ -17,6 +17,7 @@ import {
   FileText,
   Star
 } from "lucide-react";
+const backendBaseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
 export default function AdminTours() {
   const { user } = useContext(AuthContext);
@@ -413,7 +414,7 @@ export default function AdminTours() {
         {/* Tours List */}
         <div className="bg-white rounded-2xl shadow-xl p-6 md:p-8 border border-gray-100">
           <h2 className="text-xl font-semibold text-gray-800 mb-6">Existing Tours</h2>
-          
+
           {tours.length === 0 ? (
             <div className="text-center py-12">
               <Package className="w-16 h-16 mx-auto text-gray-300 mb-4" />
@@ -431,13 +432,13 @@ export default function AdminTours() {
                     {t.images && t.images.length > 0 && (
                       <div className="md:w-48 h-32 md:h-32 flex-shrink-0">
                         <img
-                          src={`http://localhost:5000${t.images[0]}`}
+                          src={`${backendBaseUrl}${t.images[0]}`}
                           alt={t.title}
                           className="w-full h-full object-cover rounded-lg"
                         />
                       </div>
                     )}
-                    
+
                     {/* Tour Details */}
                     <div className="flex-1">
                       <div className="flex items-start justify-between mb-2">
@@ -464,9 +465,9 @@ export default function AdminTours() {
                           </button>
                         </div>
                       </div>
-                      
+
                       <p className="text-gray-600 text-sm mb-3 line-clamp-2">{t.description}</p>
-                      
+
                       <div className="flex flex-wrap gap-4 text-sm">
                         <div className="flex items-center gap-1 text-gray-700">
                           <Calendar className="w-4 h-4 text-gray-400" />
