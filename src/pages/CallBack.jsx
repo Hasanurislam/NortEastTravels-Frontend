@@ -1,8 +1,7 @@
 import { useEffect, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
-import jwtDecode from "jwt-decode";
-
+import { jwtDecode } from "jwt-decode";
 
 // This component handles the redirect from the backend after Google login.
 export default function GoogleCallback() {
