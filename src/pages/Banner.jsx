@@ -72,7 +72,7 @@ const Banner = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Auto slide only if not mobile
+  
   useEffect(() => {
     if (isMobile) return;
 
@@ -104,7 +104,7 @@ const Banner = () => {
 
   return (
     <div className="relative h-screen w-full overflow-hidden bg-gradient-to-br from-slate-900 via-purple-900 to-slate-800">
-      {/* Background Slider */}
+      
       <div className="absolute inset-0">
         {destinations.map((destination, index) => (
           <div
@@ -123,7 +123,7 @@ const Banner = () => {
         ))}
       </div>
 
-      {/* Navigation Arrows */}
+      
       {!isMobile && (
         <>
           <button

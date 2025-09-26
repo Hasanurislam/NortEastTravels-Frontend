@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { PRIMARY_PHONE } from "../config/site";
 import { Phone } from "lucide-react";
 
 export default function FloatingCallButton() {
   const [show, setShow] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const onScroll = () => setShow(window.scrollY > 120);
@@ -11,6 +13,9 @@ export default function FloatingCallButton() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // Only show on home page
+  if (location.pathname !== "/") return null;
 
   if (!show) return null;
 
