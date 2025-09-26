@@ -5,14 +5,14 @@ import {
   MapPin,
   Star,
   Calendar,
-  Users,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-
 const Banner = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
   const navigate = useNavigate();
+
   const destinations = [
     {
       name: "Ziro Valley",
@@ -61,21 +61,45 @@ const Banner = () => {
     },
   ];
 
+  // Detect mobile view
   useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+
+    handleResize(); // Check on mount
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // Auto slide only if not mobile
+  useEffect(() => {
+    if (isMobile) return;
+
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % destinations.length);
     }, 5000);
     return () => clearInterval(timer);
-  }, []);
+  }, [isMobile]);
 
   const nextSlide = () => {
+    if (isMobile) return;
     setCurrentSlide((prev) => (prev + 1) % destinations.length);
   };
 
   const prevSlide = () => {
-    setCurrentSlide(
-      (prev) => (prev - 1 + destinations.length) % destinations.length
-    );
+    if (isMobile) return;
+    setCurrentSlide((prev) => (prev - 1 + destinations.length) % destinations.length);
+  };
+
+  const handleIndicatorClick = (index) => {
+    if (isMobile) return;
+    setCurrentSlide(index);
+  };
+
+  const handleCardClick = (index) => {
+    if (isMobile) return;
+    setCurrentSlide(index);
   };
 
   return (
@@ -85,8 +109,9 @@ const Banner = () => {
         {destinations.map((destination, index) => (
           <div
             key={index}
-            className={`absolute inset-0 transition-opacity duration-1000 ${index === currentSlide ? "opacity-100" : "opacity-0"
-              }`}
+            className={`absolute inset-0 transition-opacity duration-1000 ${
+              index === currentSlide ? "opacity-100" : "opacity-0"
+            }`}
           >
             <div
               className="absolute inset-0 bg-cover bg-center bg-no-repeat"
@@ -99,18 +124,22 @@ const Banner = () => {
       </div>
 
       {/* Navigation Arrows */}
-      <button
-        onClick={prevSlide}
-        className="absolute left-6 top-1/2 -translate-y-1/2 z-20 bg-white/20 backdrop-blur-sm border border-white/30 rounded-full p-3 text-white hover:bg-white/30 transition-all duration-300 group"
-      >
-        <ChevronLeft className="w-6 h-6 group-hover:scale-110 transition-transform" />
-      </button>
-      <button
-        onClick={nextSlide}
-        className="absolute right-6 top-1/2 -translate-y-1/2 z-20 bg-white/20 backdrop-blur-sm border border-white/30 rounded-full p-3 text-white hover:bg-white/30 transition-all duration-300 group"
-      >
-        <ChevronRight className="w-6 h-6 group-hover:scale-110 transition-transform" />
-      </button>
+      {!isMobile && (
+        <>
+          <button
+            onClick={prevSlide}
+            className="absolute left-6 top-1/2 -translate-y-1/2 z-20 bg-white/20 backdrop-blur-sm border border-white/30 rounded-full p-3 text-white hover:bg-white/30 transition-all duration-300 group"
+          >
+            <ChevronLeft className="w-6 h-6 group-hover:scale-110 transition-transform" />
+          </button>
+          <button
+            onClick={nextSlide}
+            className="absolute right-6 top-1/2 -translate-y-1/2 z-20 bg-white/20 backdrop-blur-sm border border-white/30 rounded-full p-3 text-white hover:bg-white/30 transition-all duration-300 group"
+          >
+            <ChevronRight className="w-6 h-6 group-hover:scale-110 transition-transform" />
+          </button>
+        </>
+      )}
 
       {/* Main Content */}
       <div className="relative z-10 h-full flex items-center">
@@ -200,11 +229,12 @@ const Banner = () => {
                 {destinations.map((destination, index) => (
                   <div
                     key={index}
-                    className={`group cursor-pointer transition-all duration-500 ${index === currentSlide
+                    className={`group cursor-pointer transition-all duration-500 ${
+                      index === currentSlide
                         ? "transform scale-105 opacity-100"
                         : "opacity-60 hover:opacity-80"
-                      }`}
-                    onClick={() => setCurrentSlide(index)}
+                    }`}
+                    onClick={() => handleCardClick(index)}
                   >
                     <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-4 border border-white/20 hover:border-white/40 transition-all duration-300">
                       <div className="flex items-center space-x-4">
@@ -247,11 +277,10 @@ const Banner = () => {
           {destinations.map((_, index) => (
             <button
               key={index}
-              onClick={() => setCurrentSlide(index)}
-              className={`w-3 h-3 rounded-full transition-all duration-300 ${index === currentSlide
-                  ? "bg-emerald-400 w-8"
-                  : "bg-white/40 hover:bg-white/60"
-                }`}
+              onClick={() => handleIndicatorClick(index)}
+              className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                index === currentSlide ? "bg-emerald-400 w-8" : "bg-white/40 hover:bg-white/60"
+              }`}
             />
           ))}
         </div>
