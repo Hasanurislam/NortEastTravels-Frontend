@@ -80,7 +80,7 @@ export default function Register() {
 
   const handleGoogleLogin = () => {
     // **This is the key change:** Redirect to the backend Google auth route
-    window.location.href = `${import.meta.env.VITE_API_BASE_URL}/api/auth/google`;
+    window.location.href = "https://norteasttravels-backend.onrender.com/api/auth/google";
   };
 
   return (
