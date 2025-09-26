@@ -79,9 +79,9 @@ function AppRoutes() {
             <Route path="/forgot-password" element={<ForgotPassword />} />
             
             {/* --- GOOGLE OAUTH CALLBACK ROUTE --- */}
-            {/*<Route path="/auth/callback" element={<GoogleCallback />} />
-            */}
-            <Route path="/auth/callback" element={<AuthCallback />} />
+            <Route path="/auth/callback" element={<GoogleCallback />} />
+            
+            
 
             {/* Admin */}
             <Route path="/admin/login" element={<AdminLogin />} />
