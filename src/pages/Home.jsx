@@ -31,7 +31,9 @@ export default function Home() {
 
       {/* Hero Section */}
       <Banner />
-      <OffersPage />
+
+     {/* <OffersPage />
+     */}
       
       <Hero />
 
