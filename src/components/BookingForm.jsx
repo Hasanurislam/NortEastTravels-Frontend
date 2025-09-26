@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, useContext } from "react";
 import { Minus, Plus, Calendar } from "lucide-react";
-import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
+import axiosClient from "../Api/axiosClient";
 
 export default function BookingForm({ offer, selectedDate, guestCount, onClose }) {
   if (!offer) return null;
@@ -91,7 +91,8 @@ export default function BookingForm({ offer, selectedDate, guestCount, onClose }
         offerId: offer._id,
       };
 
-      await axios.post("http://localhost:5000/api/bookings", payload, {
+      await axiosClient.post("/api/bookings", payload, {
+
         headers: {
           Authorization: `Bearer ${user.token}`,
           "Content-Type": "application/json",
