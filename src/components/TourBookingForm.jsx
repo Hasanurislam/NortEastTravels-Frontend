@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
+import axiosClient from "../Api/axiosClient";
 
 export default function BookingForm({ tour, onClose, selectedDate, guestCount }) {
   const { user } = useContext(AuthContext);
@@ -63,11 +64,9 @@ export default function BookingForm({ tour, onClose, selectedDate, guestCount })
       };
 
       // Send booking create request
-      await axios.post(
-        "http://localhost:5000/api/bookings",
-        bookingData,
-        config
-      );
+      await axiosClient.post("/api/bookings", bookingData, {
+  headers: { Authorization: `Bearer ${user.token}` },
+});
 
       alert("Booking request submitted successfully!");
       onClose();
