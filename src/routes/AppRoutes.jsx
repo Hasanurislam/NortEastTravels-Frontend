@@ -24,7 +24,7 @@ import ProtectedAdminRoute from "./ProtectedAdminRoute";
 import GoogleCallback from "../pages/CallBack"; 
 import OfferDetailsPage from "../pages/OfferDetailsPage";
 import ContactPage from "../pages/ContactPage";
-
+import AuthCallback from '../pages/AuthCallback';
 // Lazy-loaded pages
 const Home = lazy(() => import("../pages/Home"));
 const TourDetails = lazy(() => import("../pages/TourDetails"));
@@ -80,7 +80,7 @@ function AppRoutes() {
             
             {/* --- GOOGLE OAUTH CALLBACK ROUTE --- */}
             <Route path="/auth/callback" element={<GoogleCallback />} />
-
+            <Route path="/auth/callback" element={<AuthCallback />} />
 
             {/* Admin */}
             <Route path="/admin/login" element={<AdminLogin />} />
